@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class weatherAppGUI extends JFrame {
@@ -58,6 +59,19 @@ public class weatherAppGUI extends JFrame {
         searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         searchButton.setBounds(335, 13, 47, 45);
         add(searchButton);
+
+        //add weather icon
+        JLabel weatherIcon = new JLabel(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\cloudy.png"));
+        //centre the icon in the GUI
+        weatherIcon.setBounds(50, 100, 300, 300);
+        add(weatherIcon);
+
+        //add temperature text
+        JLabel temperatureLabel = new JLabel("20°C");
+        //set font style and size
+        temperatureLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        temperatureLabel.setBounds(170, 360, 300, 30);
+        add(temperatureLabel);
     }
 
     // create images in the gui components
