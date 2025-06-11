@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class weatherAppGUI extends JFrame {
     public weatherAppGUI() {
@@ -57,6 +58,7 @@ public class weatherAppGUI extends JFrame {
 
         //change cursor to hand when hovering over the button
         searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         searchButton.setBounds(335, 13, 47, 45);
         add(searchButton);
 
@@ -70,8 +72,45 @@ public class weatherAppGUI extends JFrame {
         JLabel temperatureLabel = new JLabel("20°C");
         //set font style and size
         temperatureLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        temperatureLabel.setBounds(170, 360, 300, 30);
+        temperatureLabel.setBounds(50, 360, 300, 30);
+
+        //centre the temperature label in the GUI
+        temperatureLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(temperatureLabel);
+
+        //add weather description text
+        JLabel weatherDescriptionLabel = new JLabel("Partly Cloudy");
+        weatherDescriptionLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        weatherDescriptionLabel.setBounds(50, 400, 300, 30);
+        add(weatherDescriptionLabel);
+        //centre the weather description label in the GUI
+        weatherDescriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        //add humidity icon
+        JLabel humidityIcon = new JLabel(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\humidity.png"));
+        humidityIcon.setBounds(10, 450, 130, 130);
+        add(humidityIcon);
+        //place the humidity icon to the left
+        humidityIcon.setHorizontalAlignment(SwingConstants.LEFT);
+
+        //add humidity text, setting it bold font
+        JLabel humidityLabel = new JLabel("<html><b>Humidity:</b> 60% </html>");
+        humidityLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        humidityLabel.setBounds(90, 490, 75, 40);
+        add(humidityLabel);
+
+        //add windspeed icon
+        JLabel windSpeedIcon = new JLabel(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\windspeed.png"));
+        windSpeedIcon.setBounds(130, 450, 130, 130);
+        add(windSpeedIcon);
+        //place the windspeed icon to the right
+        windSpeedIcon.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        //add windspeed text, setting it bold font
+        JLabel windSpeedLabel = new JLabel("<html><b>Wind Speed:</b> 15 km/h </html>");
+        windSpeedLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        windSpeedLabel.setBounds(270, 490, 95, 40);
+        add(windSpeedLabel);
     }
 
     // create images in the gui components
