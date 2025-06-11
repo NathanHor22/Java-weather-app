@@ -1,4 +1,6 @@
+import java.awt.Font;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 public class weatherAppGUI extends JFrame {
     public weatherAppGUI() {
@@ -20,6 +22,26 @@ public class weatherAppGUI extends JFrame {
 
         //prevent resizing of the GUI
         setResizable(false);
+
+        addGUIComponents();
+    }
+
+    private void addGUIComponents() {
+        // Add components to the GUI here
+        // For example, you can add buttons, labels, text fields, etc.
+        // Example: JButton button = new JButton("Click Me");
+        // add(button);
+
+        JTextField searchField = new JTextField();
+
+        //set the location and size of the text field
+        searchField.setBounds(25, 25, 300, 30);
+
+        //font style and size
+        searchField.setFont(new Font("Arial", Font.PLAIN, 16));
+
+        //add the text field to the GUI
+        add(searchField);
     }
 
 }
