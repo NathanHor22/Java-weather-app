@@ -1,4 +1,12 @@
+import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
@@ -42,6 +50,29 @@ public class weatherAppGUI extends JFrame {
 
         //add the text field to the GUI
         add(searchField);
+
+        //Search button
+        JButton searchButton = new JButton(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\search.png"));
+
+        //change cursor to hand when hovering over the button
+        searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        searchButton.setBounds(335, 13, 47, 45);
+        add(searchButton);
     }
+
+    // create images in the gui components
+    private ImageIcon loadImage(String resourcePath) {
+        try{
+            //Read the image from the specified path
+            BufferedImage image = ImageIO.read(new File(resourcePath));  
+            
+            //return image icon so the gui component can render it
+            return new ImageIcon(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Could not find resources at " + resourcePath);
+        return null;
+    }  
 
 }
