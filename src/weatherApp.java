@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,6 +26,33 @@ public class weatherApp {
         try {
             // call Api and get the response
             HttpURLConnection connection = fetchApiResponse(urlString);
+
+            //check response code
+            //if 200 means successful connection
+            if(connection.getResponseCode() !=200) {
+                System.out.println("Error: Unable to connect to the API. Response code: " + connection.getResponseCode());
+                return null;
+            } else {
+                //store the API results
+                StringBuilder resultJSON = new StringBuilder();
+                //Uses scanner class to read the response from the API
+                Scanner scanner = new Scanner(connection.getInputStream());
+
+                //read and store the resulting jsone data into our StringBuilder
+                while(scanner.hasNext()) {
+                    resultJSON.append(scanner.nextLine());
+                }
+
+                //close the scanner
+                scanner.close();
+
+                //close url connection
+                connection.disconnect();
+            }
+
+
+
+
         } catch(Exception e) {
             e.printStackTrace();
         }
