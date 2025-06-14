@@ -15,6 +15,13 @@ public class weatherApp {
         // Create a new JSONObject to hold the weather data
         JSONArray locationData = getLocationData(cityName);
 
+        JSONObject city = (JSONObject) locationData.get(0);
+        double latitude = (double) city.get("latitude");
+        double longitude = (double) city.get("longitude");
+
+        //build API request URL with the location data
+        String urlString = "https://my-server.tld/v1/forecast?" + 
+        "latitude=" + latitude + "&longitude=" + longitude + "&hourly=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m&timezone=Europe%2FLondon";
         return null;
     }
 
