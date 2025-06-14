@@ -1,10 +1,10 @@
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
+import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class weatherApp {
     //need longitude and latitude to get the weather data
@@ -14,7 +14,8 @@ public class weatherApp {
     public static JSONObject getWeatherData(String cityName) {
         // Create a new JSONObject to hold the weather data
         JSONArray locationData = getLocationData(cityName);
-        
+
+        return null;
     }
 
     public static JSONArray getLocationData(String cityName) {
@@ -48,16 +49,24 @@ public class weatherApp {
 
                 //close url connection
                 connection.disconnect();
+
+                //parse JSON string into JSON obj
+                JSONParser parser = new JSONParser();
+                JSONObject resultJsonObj = (JSONObject) parser.parse(String.valueOf(resultJSON));
+
+                //get the list of the location data the API generated
+                JSONArray locationData = (JSONArray) resultJsonObj.get("results");
+                return locationData;
             }
-
-
-
 
         } catch(Exception e) {
             e.printStackTrace();
         }
+
+        //could not get location data
+        return null;    
     }
-}
+
 
 
     private static HttpURLConnection fetchApiResponse(String urlString) {
@@ -80,3 +89,4 @@ public class weatherApp {
     //could not connect to the API
     return null;
     }
+}

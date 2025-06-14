@@ -4,5 +4,13 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "c:\\Users\\damna\\Downloads\\json-simple-1.1.1.jar"
-    ]
+    ],
+    "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-24",
+      "path": "C:\\Program Files\\Java\\jdk-24.0.1",
+      "default": true
+    }
+  ],
+  "java.configuration.sourceLevel": "24"
 }
