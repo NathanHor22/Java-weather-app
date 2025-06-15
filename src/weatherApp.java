@@ -1,5 +1,7 @@
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.io.IOException;
 import org.json.simple.JSONArray;
@@ -22,6 +24,53 @@ public class weatherApp {
         //build API request URL with the location data
         String urlString = "https://my-server.tld/v1/forecast?" + 
         "latitude=" + latitude + "&longitude=" + longitude + "&hourly=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m&timezone=Europe%2FLondon";
+        
+        try{
+            
+            //call API and get response
+            HttpURLConnection connection = fetchApiResponse(urlString);
+
+            //check response code
+            //if 200 means successful connection
+
+            if(connection.getResponseCode() != 200) {
+                System.out.println("Error: Unable to connect to the API. Response code: " + connection.getResponseCode());
+                return null;
+            }
+
+                //store the API results
+                StringBuilder resultJSON = new StringBuilder();
+                //Uses scanner class to read the response from the API
+                Scanner scanner = new Scanner(connection.getInputStream());
+
+                //read and store the resulting json data into our StringBuilder
+                while(scanner.hasNext()) {
+                    resultJSON.append(scanner.nextLine());
+                }
+
+                //close the scanner
+                scanner.close();
+
+                //close url connection
+                connection.disconnect();
+
+                //parse JSON string into JSON obj
+                JSONParser parser = new JSONParser();
+                JSONObject resultJsonObj = (JSONObject) parser.parse(String.valueOf(resultJSON));
+
+                //retrive hourly data
+                JSONObject hourlyData = (JSONObject) resultJsonObj.get("hourly");
+                int index = findIndexOfCurrentTime(time);
+
+
+
+
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        
         return null;
     }
 
@@ -75,7 +124,6 @@ public class weatherApp {
     }
 
 
-
     private static HttpURLConnection fetchApiResponse(String urlString) {
     //Attempt to connect to the API
         try {
@@ -96,4 +144,22 @@ public class weatherApp {
     //could not connect to the API
     return null;
     }
+
+    private static int findIndexOfCurrentTime(JSONArray timelist) {
+        String currentTime = getCurrentTime();
+        return 0;
+    }
+
+
+    public static String getCurrentTime() {
+        // Get the current time in the format "yyyy-MM-dd'T'HH:mm:ss"
+        LocalDate currentDate = LocalDate.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:00");
+
+        // format and print current date and time
+        String formattedDate = currentDate.format(formatter);
+        return formattedDate;
+    }
+
 }
