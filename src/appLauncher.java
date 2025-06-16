@@ -9,9 +9,10 @@ public class appLauncher {
             // Create and set up the GUI;
             //shortcut instead of creating a new instance of the GUI class
             // Make the GUI visible
-            //new weatherAppGUI().setVisible(true);
+            new weatherAppGUI().setVisible(true);
 
-                System.out.println(weatherApp.getLocationData("Tokyo"));
+                //System.out.println(weatherApp.getLocationData("Tokyo"));
+                System.out.println(weatherApp.getCurrentTime());
             }
         });
 

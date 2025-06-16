@@ -1,6 +1,6 @@
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.io.IOException;
@@ -58,19 +58,18 @@ public class weatherApp {
                 JSONParser parser = new JSONParser();
                 JSONObject resultJsonObj = (JSONObject) parser.parse(String.valueOf(resultJSON));
 
-                //retrive hourly data
-                JSONObject hourlyData = (JSONObject) resultJsonObj.get("hourly");
-                int index = findIndexOfCurrentTime(time);
 
+                //retrieve hourly data from the JSON object
+                JSONArray hourly = (JSONArray) resultJsonObj.get("hourly");
 
-
+                //retrieve the time data from the JSON object
+                JSONObject timeData = (JSONObject) resultJsonObj.get("time");
+                int index = findIndexOfCurrentTime(timeData);
 
 
         } catch(Exception e) {
             e.printStackTrace();
         }
-        
-        
         return null;
     }
 
@@ -145,7 +144,7 @@ public class weatherApp {
     return null;
     }
 
-    private static int findIndexOfCurrentTime(JSONArray timelist) {
+    private static int findIndexOfCurrentTime(JSONObject timeData) {
         String currentTime = getCurrentTime();
         return 0;
     }
@@ -153,7 +152,7 @@ public class weatherApp {
 
     public static String getCurrentTime() {
         // Get the current time in the format "yyyy-MM-dd'T'HH:mm:ss"
-        LocalDate currentDate = LocalDate.now();
+        LocalDateTime currentDate = LocalDateTime.now();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:00");
 
