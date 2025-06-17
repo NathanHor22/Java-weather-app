@@ -66,6 +66,30 @@ public class weatherApp {
                 JSONObject timeData = (JSONObject) resultJsonObj.get("time");
                 int index = findIndexOfCurrentTime(timeData);
 
+                //get temperature data from the hourly data
+                JSONArray temperatureData = (JSONArray) hourly.get("temperature_2m");
+                double temperature = (double) temperatureData.get(index);
+
+                //get weather code data from the hourly data
+                JSONArray weatherCodeData = (JSONArray) hourly.get("weather_code");
+                String weatherCondition = convertWeatherCode((long) weatherCodeData.get(index));
+
+                //get humidity data from the hourly data
+                JSONArray humidityData = (JSONArray) hourly.get("relative_humidity_2m");
+                long humidity = (long) humidityData.get(index);
+
+                //get wind speed data from the hourly data
+                JSONArray windSpeedData = (JSONArray) hourly.get("windspeed_10m");
+                double windSpeed = (double) windSpeedData.get(index);
+
+                //create a new JSON object to hold the weather data for our frontend
+                JSONObject weatherData = new JSONObject();
+                weatherData.put("temperature", temperature);
+                weatherData.put("weatherCondition", weatherCondition);
+                weatherData.put("humidity", humidity);
+                weatherData.put("windSpeed", windSpeed);
+
+                return weatherData;
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -146,6 +170,14 @@ public class weatherApp {
 
     private static int findIndexOfCurrentTime(JSONObject timeData) {
         String currentTime = getCurrentTime();
+
+        //iterate through the time data to find the index of the current time
+        for(int i = 0; i < timeData.size(); i++) {
+            String time = (String) timeData.get(i);
+            if(time.equalsIgnoreCase(currentTime)) {
+                return i;
+            }
+        }
         return 0;
     }
 
@@ -160,5 +192,28 @@ public class weatherApp {
         String formattedDate = currentDate.format(formatter);
         return formattedDate;
     }
+
+    private static String convertWeatherCode(long weatherCode) {
+        // Convert the weather code to something more readable
+        //documentation to show the weather codes are available at 
+        //https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
+        String weatherCondition = "";
+            if(weatherCode == 0L) {
+                //clear
+                weatherCondition = "Clear";
+            } else if(weatherCode > 0L && weatherCode <= 3L) {
+                //cloudy
+                weatherCondition = "Cloudy";
+            } else if(weatherCode >= 51L && weatherCode <= 67L || (weatherCode >= 80L && weatherCode <= 99L)) {
+                //rainy
+                weatherCondition = "Rainy";
+            } else if(weatherCode > 71L && weatherCode <= 77L) {
+                //snowy
+                weatherCondition = "Snowy";
+            }
+            return weatherCondition;
+        }
+
+
 
 }

@@ -1,5 +1,7 @@
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.json.simple.JSONObject;
+
 public class weatherAppGUI extends JFrame {
+
+    private JSONObject weatherData;
+    
     public weatherAppGUI() {
 
         //setting up the GUI and adding title
@@ -53,14 +60,7 @@ public class weatherAppGUI extends JFrame {
         //add the text field to the GUI
         add(searchField);
 
-        //Search button
-        JButton searchButton = new JButton(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\search.png"));
-
-        //change cursor to hand when hovering over the button
-        searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        searchButton.setBounds(335, 13, 47, 45);
-        add(searchButton);
+   
 
         //add weather icon
         JLabel weatherIcon = new JLabel(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\cloudy.png"));
@@ -111,6 +111,66 @@ public class weatherAppGUI extends JFrame {
         windSpeedLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         windSpeedLabel.setBounds(270, 490, 95, 40);
         add(windSpeedLabel);
+
+
+        //Search button
+        JButton searchButton = new JButton(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\search.png"));
+
+        //change cursor to hand when hovering over the button
+        searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        searchButton.setBounds(335, 13, 47, 45);
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the city name from the search field
+                String userInput = searchTextField.getText();
+
+                //validate user input and remove white space to prevent non-empty text
+                if(userInput.replaceAll("\\s","").length() <= 0) {
+                    return;
+                }
+
+                //retrive weather data for the specified city
+                weatherData = weatherApp.getWeatherData(userInput);
+
+                //update gui
+
+                //update weather image
+                String weatherCondition = (String) weatherData.get("weatherCondition");
+
+                //weather image updates according to the weather condition
+                switch(weatherCondition) {
+                    case "Clear":
+                        weatherIcon.setIcon(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\sunny.png"));
+                        break;
+                    case "Clouds":
+                        weatherIcon.setIcon(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\cloudy.png"));
+                        break;
+                    case "Rain":
+                        weatherIcon.setIcon(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\rainy.png"));
+                        break;
+                    case "Snow":
+                        weatherIcon.setIcon(loadImage("C:\\Users\\damna\\Documents\\GitHub\\Java-weather-app\\assets\\snowy.png"));
+                        break;
+                }
+
+                //update temperature
+                double temperature = (double) weatherData.get("temperature");
+                temperatureLabel.setText(temperature + "C°");
+
+                //update humidity
+                long humidity = (long) weatherData.get("humidity");
+                humidityLabel.setText("<html><b>Humidity:</b> " + humidity + "%</html>");
+
+
+                //update wind speed
+                double windSpeed = (double) weatherData.get("windSpeed");
+                windSpeedLabel.setText("<html><b>Windpeed:</b> " + windSpeed + " km/h</html>");
+            }
+        });
+
+
+        add(searchButton);
     }
 
     // create images in the gui components
