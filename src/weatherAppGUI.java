@@ -123,7 +123,7 @@ public class weatherAppGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Get the city name from the search field
-                String userInput = searchTextField.getText();
+                String userInput = searchField.getText();
 
                 //validate user input and remove white space to prevent non-empty text
                 if(userInput.replaceAll("\\s","").length() <= 0) {

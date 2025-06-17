@@ -60,7 +60,7 @@ public class weatherApp {
 
 
                 //retrieve hourly data from the JSON object
-                JSONArray hourly = (JSONArray) resultJsonObj.get("hourly");
+                JSONObject hourly = (JSONObject) resultJsonObj.get("hourly");
 
                 //retrieve the time data from the JSON object
                 JSONObject timeData = (JSONObject) resultJsonObj.get("time");
